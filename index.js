@@ -10,8 +10,8 @@ var bot = linebot({
 //這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
   if (event.message.type = 'text') {
-    // var msg = getReplyMsg(event.message.text);
-   var msg = '你好~~~';
+     var msg = getReplyMsg(event.message.text);
+   // var msg = '你好~~~';
   //收到文字訊息時，直接把收到的訊息傳回去
 
     event.reply(msg).then(function(data) {
@@ -40,6 +40,6 @@ function getReplyMsg(request){
     }else{
       response = request;
     }
-    return response;
+    return response+'<<你好';
 
 }
