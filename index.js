@@ -40,36 +40,40 @@ var server = app.listen(process.env.PORT || 8080, function() {
 
 function _getReplyMsg(msg){
     var replyMsg = '';
-      
-      if (msg.toUpperCase().indexOf('HELP') != -1) {
-          replyMsg = _getHelp();
-      }else if (msg.indexOf('PM2.5') != -1) {
-          pm.forEach(function(e, i) {
-            if (msg.indexOf(e[0]) != -1) {
-              replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
+     try{  
+        if (msg.toUpperCase().indexOf('HELP') != -1) {
+            replyMsg = _getHelp();
+        }else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
+            pm.forEach(function(e, i) {
+              if (msg.indexOf(e[0]) != -1) {
+                replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
+              }
+            });
+
+            if (replyMsg == '') {
+              replyMsg = '請輸入正確的地點';
             }
-          });
-
-          if (replyMsg == '') {
-            replyMsg = '請輸入正確的地點';
+        }else if(msg.indexOf('經緯度') != -1){
+          try{
+              var gisdata =  msg.replace('經緯度 ','').split(',');
+              var wgsxdata = twd97_to_latlng(gisdata[0],gisdata[1]);
+              replyMsg = wgsxdata.lat+','+wgsxdata.lng
+          }catch(e){H
+               replyMsg = e.message+'..'+e.name;
           }
-      }else if(msg.indexOf('經緯度') != -1){
-        try{
-            var gisdata =  msg.replace('經緯度 ','').split(',');
-            var wgsxdata = twd97_to_latlng(gisdata[0],gisdata[1]);
-            replyMsg = wgsxdata.lat+','+wgsxdata.lng
-        }catch(e){
-             replyMsg = e.message+'..'+e.name;
+          
+
         }
-        
 
-      }
-
-
-      if (replyMsg == '') {
+       if (replyMsg == '') {
         replyMsg = '不知道「'+msg+'」是什麼意思 :p';
       }
-    return ''+ replyMsg;
+ }catch(e){
+             replyMsg = e.message+'..'+e.name;
+        }
+
+ 
+    return ':)'+ replyMsg;
 
 }
 
