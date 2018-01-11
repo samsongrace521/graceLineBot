@@ -7,10 +7,20 @@ var bot = linebot({
   channelAccessToken: 'ZHcGSnnInWxVJkwWjz2TEQ4Rmu7GFIZ82nqK/nnPckbR1zw9z0anx90lCndweFGfOalYMXdtp4DW7CUJrtZ3HpSTwf6osEKNCrBdY2muaHYUR8Dq8skykzIAQbmea2pMPRXC7eTa6vIjJoDcP3nd8AdB04t89/1O/w1cDnyilFU='
 });
 
+var timer;
+var pm = [];
+_getJSON();
+
 //這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
   if (event.message.type = 'text') {
-     var msg = _getReplyMsg(event.message.text);
+    var msg ='';
+     try{
+         msg = _getReplyMsg(event.message.text);
+     }catch(e){
+         msg = e.message;
+     }
+
    // var msg = '你好~~~';
   //收到文字訊息時，直接把收到的訊息傳回去
 
@@ -23,11 +33,6 @@ bot.on('message', function(event) {
     });
   }
 });
-
-var timer;
-var pm = [];
-_getJSON();
-
 const app = express();
 const linebotParser = bot.parser();
 app.post('/', linebotParser);
