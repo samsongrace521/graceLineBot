@@ -12,6 +12,7 @@ bot.on('message', function(event) {
   if (event.message.type = 'text') {
     var msg = event.message.text;
   //收到文字訊息時，直接把收到的訊息傳回去
+
     event.reply(msg).then(function(data) {
       // 傳送訊息成功時，可在此寫程式碼 
       console.log(msg);
@@ -30,3 +31,14 @@ var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
   console.log('目前的port是', port);
 });
+
+function getReplyMsg(request){
+    var response = '';
+    if(request == 'test'){
+        response = '測試';
+    }else{
+      response = request;
+    }
+    return response;
+
+}
