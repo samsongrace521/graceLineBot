@@ -1,6 +1,6 @@
 var linebot = require('linebot');
 var express = require('express');
-var get-json = require('get-json')
+
 var jQuery = require('jquery')
 //var jsdom = require("jsdom");
 
