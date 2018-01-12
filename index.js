@@ -1,6 +1,7 @@
 var linebot = require('linebot');
 var express = require('express');
-var $ = require('jquery')
+var get-json = require('get-json')
+var jQuery = require('jquery')
 //var jsdom = require("jsdom");
 
 var bot = linebot({
@@ -96,12 +97,12 @@ function _getReplyMsg(msg){
 
 function _getJSON() {
   clearTimeout(timer);
-	$.ajax({			
+  jQuery.ajax({			
 		url : "http://opendata2.epa.gov.tw/AQX.json",
 		type: 'GET'
 	}).done(function(result) {
 		var pm = [];
-		$.each(result,function(i){
+		jQuery.each(result,function(i){
 			  pm[i] = [];
 		      pm[i][0] = this.SiteName;
 		      pm[i][1] = this['PM2.5'] * 1;
