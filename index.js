@@ -1,6 +1,6 @@
 var linebot = require('linebot');
 var express = require('express');
-//const emojiSearch = require('demo-emoji-search');
+// const emojiSearch = require('demo-emoji-search');
 
 const jQuery = require('jquery')
 const jsdom = require("jsdom");
@@ -96,9 +96,9 @@ function _getReplyMsg(msg){
 
         }
 
-//       if (replyMsg == '') {
-//        replyMsg = '不知道「'+msg+'」是什麼意思 :p';
-//      }
+// if (replyMsg == '') {
+// replyMsg = '不知道「'+msg+'」是什麼意思 :p';
+// }
  }catch(e){
              replyMsg = e.message+'..'+e.name;
         }
