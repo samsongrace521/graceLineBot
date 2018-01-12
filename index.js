@@ -167,14 +167,16 @@ function twd97_to_latlng(x, y) {
   var Q3 = (5 + 3 * T1 + 10 * C1 - 4 * pow(C1, 2) - 9 * e2) * pow(D, 4) / 24.0;
   var Q4 = (61 + 90 * T1 + 298 * C1 + 45 * pow(T1, 2) - 3 * pow(C1, 2) - 252 * e2) * pow(D, 6) / 720.0;
   var lat = fp - Q1 * (Q2 - Q3 + Q4);
-  console.log('計算中3:Q1:'+Q1+',Q2:'+Q2+',T1:'+T1);
+  console.log('計算中3:Q1:'+Q1+',Q2:'+Q2+',lat:'+lat);
   var Q5 = D;
   var Q6 = (1 + 2 * T1 + C1) * pow(D, 3) / 6;
   var Q7 = (5 - 2 * C1 + 28 * T1 - 3 * pow(C1, 2) + 8 * e2 + 24 * pow(T1, 2)) * pow(D, 5) / 120.0;
   var lng = lng0 + (Q5 - Q6 + Q7) / cos(fp);
-
+  console.log('計算中4:Q5:'+Q5+',Q6:'+Q6+',lng:'+lng);
   lat = (lat * 180) / M_PI;
   lng = (lng * 180) / M_PI;
+  console.log('計算中5:lat:'+lat+',lng:'+lng+',M_PI:'+M_PI);
+  
   console.log('計算完畢:'+lat+','+lng);
   return {
     lat: lat,
