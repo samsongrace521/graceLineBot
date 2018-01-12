@@ -30,14 +30,16 @@ bot.on('message', function(event) {
 
    // var msg = '你好~~~';
   // 收到文字訊息時，直接把收到的訊息傳回去
-
-    event.reply(msg).then(function(data) {
-      // 傳送訊息成功時，可在此寫程式碼
-      console.log(msg);
-    }).catch(function(error) {
-      // 傳送訊息失敗時，可在此寫程式碼
-      console.log('錯誤產生，錯誤碼：'+error);
-    });
+	if(msg != null){
+		 event.reply(msg).then(function(data) {
+		      // 傳送訊息成功時，可在此寫程式碼
+		      console.log(msg);
+		    }).catch(function(error) {
+		      // 傳送訊息失敗時，可在此寫程式碼
+		      console.log('錯誤產生，錯誤碼：'+error);
+		    });
+	}
+   
   }
 });
 const app = express();
@@ -53,7 +55,9 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _getReplyMsg(msg){
     var replyMsg = '';
      try{  
-        if (msg.toUpperCase().indexOf('HELP') != -1) {
+        if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
+        	replyMsg = 'hello!';
+        }else if (msg.toUpperCase().indexOf('HELP') != -1) {
             replyMsg = _getHelp();
         }else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
         	if(pm!=null && pm.length > 0){
@@ -92,9 +96,9 @@ function _getReplyMsg(msg){
 
         }
 
-       if (replyMsg == '') {
-        replyMsg = '不知道「'+msg+'」是什麼意思 :p';
-      }
+//       if (replyMsg == '') {
+//        replyMsg = '不知道「'+msg+'」是什麼意思 :p';
+//      }
  }catch(e){
              replyMsg = e.message+'..'+e.name;
         }
