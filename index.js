@@ -100,7 +100,7 @@ function _getReplyMsg(msg){
         }
 
  
-    return Unicode.stringify('0x100015') + replyMsg;
+    return Unicode.stringify('0x100015') +' '+ replyMsg;
 
 }
 
