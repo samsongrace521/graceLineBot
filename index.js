@@ -3,8 +3,8 @@ var express = require('express');
 
 const jQuery = require('jquery')
 const jsdom = require("jsdom");
-//var jsdom = require("node-jsdom");
-//const { JSDOM } = jsdom;
+// var jsdom = require("node-jsdom");
+// const { JSDOM } = jsdom;
 
 var bot = linebot({
   channelId: '1553329312',
@@ -56,11 +56,20 @@ function _getReplyMsg(msg){
             replyMsg = _getHelp();
         }else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
         	if(pm!=null && pm.length > 0){
-        	    pm.forEach(function(e, i) {
-                    if (msg.indexOf(e[0]) != -1) {
-                      replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
-                    }
-                  });
+        		if(msg.indexOf('區域') != -1){
+        			replyMsg='你可以查詢的區域有: ';
+        			pm.forEach(function(e, i) {                       
+                        replyMsg += e[0]+' ';
+                    });
+        		}else{
+        			   pm.forEach(function(e, i) {
+                           if (msg.indexOf(e[0]) != -1) {
+                             replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
+                           }
+                         });
+        		}
+        	 
+        	    
         	}else{
         		  replyMsg = '還沒撈到資料';
         	}
@@ -167,7 +176,7 @@ function twd97_to_latlng(x, y) {
   var Q3 = (5 + 3 * T1 + 10 * C1 - 4 * pow(C1, 2) - 9 * e2) * pow(D, 4) / 24.0;
   var Q4 = (61 + 90 * T1 + 298 * C1 + 45 * pow(T1, 2) - 3 * pow(C1, 2) - 252 * e2) * pow(D, 6) / 720.0;
   var lat = fp - Q1 * (Q2 - Q3 + Q4);
-  console.log('計算中3:Q1:'+Q1+',Q2:'+Q2+',lat:'+lat);
+  console.log('計算中3:fp:'+fp+',Q1:'+Q1+',Q2:'+Q2+',Q3:'+Q3+',Q4'+Q4+',lat:'+lat);
   var Q5 = D;
   var Q6 = (1 + 2 * T1 + C1) * pow(D, 3) / 6;
   var Q7 = (5 - 2 * C1 + 28 * T1 - 3 * pow(C1, 2) + 8 * e2 + 24 * pow(T1, 2)) * pow(D, 5) / 120.0;
