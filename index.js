@@ -82,7 +82,7 @@ function _getReplyMsg(msg){
         }else if(msg.indexOf('經緯度') != -1){
           try{
               var gisdata =  msg.replace('經緯度 ','').split(',');
-              console.log(gisdata[0]+','+gisdata[1]);
+              console.log('>>>>'+gisdata[0]+','+gisdata[1]);
               var wgsxdata = twd97_to_latlng(Number(gisdata[0]), Number(gisdata[1]));
               replyMsg = wgsxdata.lat+','+wgsxdata.lng
           }catch(e){H
@@ -143,7 +143,7 @@ function _getHelp(){
 }
 
 function twd97_to_latlng(x, y) {
-	
+	 console.log('計算中0:x:'+x +',y:'+y);
   var pow = Math.pow, M_PI = Math.PI;
   var sin = Math.sin, cos = Math.cos, tan = Math.tan;
   var a = 6378137.0, b = 6356752.314245;
