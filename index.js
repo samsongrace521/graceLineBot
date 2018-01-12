@@ -100,7 +100,7 @@ function _getReplyMsg(msg){
         }
 
  
-    return Unicode.stringify('0x100015') +' '+ replyMsg;
+    return '&#10007B;' +' '+ replyMsg;
 
 }
 
@@ -135,7 +135,7 @@ function _getJSON() {
 }
 
 function _getHelp(){
-  var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5 /n 2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
+  var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5  2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
 
 
 
@@ -143,13 +143,12 @@ function _getHelp(){
 }
 
 function twd97_to_latlng(x, y) {
-	 console.log('計算中0:x:'+x +',y:'+y);
   var pow = Math.pow, M_PI = Math.PI;
   var sin = Math.sin, cos = Math.cos, tan = Math.tan;
   var a = 6378137.0, b = 6356752.314245;
   var lng0 = 121 * M_PI / 180, k0 = 0.9999, dx = 250000, dy = 0;
   var e = pow((1 - pow(b, 2) / pow(a, 2)), 0.5);
-  console.log('計算中1:pow:'+pow+',M_PI:'+M_PI+',e:'+e);
+ 
   x -= dx;
   y -= dy;
 
@@ -172,7 +171,7 @@ function twd97_to_latlng(x, y) {
   var N1 = a / pow((1 - pow(e, 2) * pow(sin(fp), 2)), 0.5);
 
   var D = x / (N1 * k0);
-  console.log('計算中2:D:'+D+',N1:'+N1+',k0:'+k0+',x:'+x);
+
   var Q1 = N1 * tan(fp) / R1;
   var Q2 = (pow(D, 2) / 2.0);
   var Q3 = (5 + 3 * T1 + 10 * C1 - 4 * pow(C1, 2) - 9 * e2) * pow(D, 4) / 24.0;
@@ -190,8 +189,8 @@ function twd97_to_latlng(x, y) {
   
   console.log('計算完畢:'+lat+','+lng);
   return {
-    lat: lat,
-    lng: lng
+    lat: lat.toFixed(6),
+    lng: lng.toFixed(6)
   };
 }
 
