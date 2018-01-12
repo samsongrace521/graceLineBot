@@ -81,8 +81,8 @@ function _getReplyMsg(msg){
             }
         }else if(msg.indexOf('經緯度') != -1){
           try{
-              var gisdata =  msg.replace('經緯度 ','').split(',');
-              console.log('>>>>'+gisdata[0]+','+gisdata[1]);
+              var gisdata =  msg.replace('經緯度','').split(',');
+              console.log('>>>>'+gisdata[0].replace('經緯度','')+','+gisdata[1]);
               var wgsxdata = twd97_to_latlng(Number(gisdata[0]), Number(gisdata[1]));
               replyMsg = wgsxdata.lat+','+wgsxdata.lng
           }catch(e){H
