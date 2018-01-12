@@ -108,7 +108,7 @@ function _getJSON() {
 			url : "http://opendata2.epa.gov.tw/AQX.json",
 			type: 'GET'
 		}).done(function(result) {
-			var pm = [];
+			 pm = [];
 			$.each(result,function(i){
 				  pm[i] = [];
 			      pm[i][0] = this.SiteName;
@@ -138,7 +138,7 @@ function twd97_to_latlng(x, y) {
   var a = 6378137.0, b = 6356752.314245;
   var lng0 = 121 * M_PI / 180, k0 = 0.9999, dx = 250000, dy = 0;
   var e = pow((1 - pow(b, 2) / pow(a, 2)), 0.5);
-
+  console.log('計算中1:pow:'+pow+',M_PI:'+M_PI+',e:'+e);
   x -= dx;
   y -= dy;
 
@@ -159,7 +159,7 @@ function twd97_to_latlng(x, y) {
   var T1 = pow(tan(fp), 2);
   var R1 = a * (1 - pow(e, 2)) / pow((1 - pow(e, 2) * pow(sin(fp), 2)), (3.0 / 2.0));
   var N1 = a / pow((1 - pow(e, 2) * pow(sin(fp), 2)), 0.5);
-
+  console.log('計算中2:e2:'+e2+',C1:'+C1+',T1:'+T1);
   var D = x / (N1 * k0);
 
   var Q1 = N1 * tan(fp) / R1;
@@ -167,7 +167,7 @@ function twd97_to_latlng(x, y) {
   var Q3 = (5 + 3 * T1 + 10 * C1 - 4 * pow(C1, 2) - 9 * e2) * pow(D, 4) / 24.0;
   var Q4 = (61 + 90 * T1 + 298 * C1 + 45 * pow(T1, 2) - 3 * pow(C1, 2) - 252 * e2) * pow(D, 6) / 720.0;
   var lat = fp - Q1 * (Q2 - Q3 + Q4);
-
+  console.log('計算中3:Q1:'+Q1+',Q2:'+Q2+',T1:'+T1);
   var Q5 = D;
   var Q6 = (1 + 2 * T1 + C1) * pow(D, 3) / 6;
   var Q7 = (5 - 2 * C1 + 28 * T1 - 3 * pow(C1, 2) + 8 * e2 + 24 * pow(T1, 2)) * pow(D, 5) / 120.0;
