@@ -1,7 +1,7 @@
 var linebot = require('linebot');
 var express = require('express');
 
-const $ = require('jquery')
+const jQuery = require('jquery')
 const jsdom = require("jsdom");
 //var jsdom = require("node-jsdom");
 //const { JSDOM } = jsdom;
@@ -10,15 +10,6 @@ var bot = linebot({
   channelId: '1553329312',
   channelSecret: '82986980f63b2f1fad7af428ac0a0f70',
   channelAccessToken: 'ZHcGSnnInWxVJkwWjz2TEQ4Rmu7GFIZ82nqK/nnPckbR1zw9z0anx90lCndweFGfOalYMXdtp4DW7CUJrtZ3HpSTwf6osEKNCrBdY2muaHYUR8Dq8skykzIAQbmea2pMPRXC7eTa6vIjJoDcP3nd8AdB04t89/1O/w1cDnyilFU='
-});
-
-require('jsdom/lib/old-api').env("", function(err, window) {
-    if (err) {
-        console.error(err);
-        return;
-    }
- 
-    $ = require("jquery")(window);
 });
 
 var timer;
@@ -99,20 +90,29 @@ function _getReplyMsg(msg){
 
 function _getJSON() {
   clearTimeout(timer);
-  $.ajax({			
-		url : "http://opendata2.epa.gov.tw/AQX.json",
-		type: 'GET'
-	}).done(function(result) {
-		var pm = [];
-		$.each(result,function(i){
-			  pm[i] = [];
-		      pm[i][0] = this.SiteName;
-		      pm[i][1] = this['PM2.5'] * 1;
-		      pm[i][2] = this.PM10 * 1;
-		});
-	}).fail(function() {
-		debugger
-	});  
+  require('jsdom/lib/old-api').env("", function(err, window) {
+	    if (err) {
+	        console.error(err);
+	        return;
+	    }
+	 
+	    var $ = require("jquery")(window);
+	    $.ajax({			
+			url : "http://opendata2.epa.gov.tw/AQX.json",
+			type: 'GET'
+		}).done(function(result) {
+			var pm = [];
+			$.each(result,function(i){
+				  pm[i] = [];
+			      pm[i][0] = this.SiteName;
+			      pm[i][1] = this['PM2.5'] * 1;
+			      pm[i][2] = this.PM10 * 1;
+			});
+		}).fail(function() {
+			debugger
+		});  
+	});
+ 
   timer = setInterval(_getJSON, 1800000); // 每半小時抓取一次新資料
 }
 
