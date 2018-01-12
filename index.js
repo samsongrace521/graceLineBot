@@ -1,7 +1,7 @@
 var linebot = require('linebot');
 var express = require('express');
 
-var jQuery = require('jquery')
+const $ = require('jquery')
 const jsdom = require("jsdom");
 //var jsdom = require("node-jsdom");
 //const { JSDOM } = jsdom;
@@ -18,7 +18,7 @@ require('jsdom/lib/old-api').env("", function(err, window) {
         return;
     }
  
-    var $ = require("jquery")(window);
+    $ = require("jquery")(window);
 });
 
 var timer;
