@@ -100,7 +100,7 @@ function _getReplyMsg(msg){
         }
 
 
-    return  \u1000B2 + replyMsg;
+    return  \u0x1000B2 + replyMsg;
 
 }
 
