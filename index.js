@@ -10,7 +10,7 @@ var bot = linebot({
   channelAccessToken: 'ZHcGSnnInWxVJkwWjz2TEQ4Rmu7GFIZ82nqK/nnPckbR1zw9z0anx90lCndweFGfOalYMXdtp4DW7CUJrtZ3HpSTwf6osEKNCrBdY2muaHYUR8Dq8skykzIAQbmea2pMPRXC7eTa6vIjJoDcP3nd8AdB04t89/1O/w1cDnyilFU='
 });
 
-require("jsdom").env("", function(err, window) {
+jsdom.env("", function(err, window) {
     if (err) {
         console.error(err);
         return;
