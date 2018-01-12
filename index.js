@@ -99,11 +99,7 @@ function _getReplyMsg(msg){
              replyMsg = e.message+'..'+e.name;
         }
 
-code = '100078';
-//16進エンコードされたバイナリ文字列をデコード
-bin = hex2bin(str_repeat('0', 8 - strlen($code)) . $code);
-//UTF8へエンコード
-emoticon =  mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
+
     return '(0x1000B2)' +' 0x1000B2 '+' 1000B2'+ replyMsg;
 
 }
