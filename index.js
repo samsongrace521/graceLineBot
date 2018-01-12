@@ -99,12 +99,12 @@ function _getReplyMsg(msg){
 
 function _getJSON() {
   clearTimeout(timer);
-  jQuery.ajax({			
+  $.ajax({			
 		url : "http://opendata2.epa.gov.tw/AQX.json",
 		type: 'GET'
 	}).done(function(result) {
 		var pm = [];
-		jQuery.each(result,function(i){
+		$.each(result,function(i){
 			  pm[i] = [];
 		      pm[i][0] = this.SiteName;
 		      pm[i][1] = this['PM2.5'] * 1;
