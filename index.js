@@ -1,5 +1,8 @@
 var linebot = require('linebot');
 var express = require('express');
+const emojiSearch = require('demo-emoji-search');
+
+
 
 const jQuery = require('jquery')
 const jsdom = require("jsdom");
@@ -99,7 +102,7 @@ function _getReplyMsg(msg){
         }
 
  
-    return '(ok)'+ replyMsg;
+    return '(ok) '+ replyMsg;
 
 }
 
@@ -140,7 +143,12 @@ function _getHelp(){
 
   return replyMsg;
 }
-
+//b.1]: 計算中1:pow:function pow() { [native code] },M_PI:3.141592653589793,e:0.08181919084296556
+//2018-01-12T06:46:43.734155+00:00 app[web.1]: 計算中2:e2:0.006739496742333498,C1:0.00003846610604071013,T1:0.1808009963850583
+//2018-01-12T06:46:43.734236+00:00 app[web.1]: 計算中3:fp:0.402045968759012,Q1:0.42763390016178454,Q2:NaN,Q3:NaN,Q4NaN,lat:NaN
+//2018-01-12T06:46:43.734356+00:00 app[web.1]: 計算中4:Q5:NaN,Q6:NaN,lng:NaN
+//2018-01-12T06:46:43.734413+00:00 app[web.1]: 計算中5:lat:NaN,lng:NaN,M_PI:3.141592653589793
+//2018-01-12T06:46:43.734519+00:00 app[web.1]: 計算完畢:NaN,NaN
 function twd97_to_latlng(x, y) {
   var pow = Math.pow, M_PI = Math.PI;
   var sin = Math.sin, cos = Math.cos, tan = Math.tan;
@@ -168,9 +176,9 @@ function twd97_to_latlng(x, y) {
   var T1 = pow(tan(fp), 2);
   var R1 = a * (1 - pow(e, 2)) / pow((1 - pow(e, 2) * pow(sin(fp), 2)), (3.0 / 2.0));
   var N1 = a / pow((1 - pow(e, 2) * pow(sin(fp), 2)), 0.5);
-  console.log('計算中2:e2:'+e2+',C1:'+C1+',T1:'+T1);
-  var D = x / (N1 * k0);
 
+  var D = x / (N1 * k0);
+  console.log('計算中2:D:'+D+',N1:'+N1+',k0:'+k0+',x:'+x);
   var Q1 = N1 * tan(fp) / R1;
   var Q2 = (pow(D, 2) / 2.0);
   var Q3 = (5 + 3 * T1 + 10 * C1 - 4 * pow(C1, 2) - 9 * e2) * pow(D, 4) / 24.0;
