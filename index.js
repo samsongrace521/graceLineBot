@@ -83,7 +83,7 @@ function _getReplyMsg(msg){
           try{
               var gisdata =  msg.replace('經緯度 ','').split(',');
               console.log(gisdata[0]+','+gisdata[1]);
-              var wgsxdata = twd97_to_latlng(gisdata[0],gisdata[1]);
+              var wgsxdata = twd97_to_latlng(Number(gisdata[0]), Number(gisdata[1]));
               replyMsg = wgsxdata.lat+','+wgsxdata.lng
           }catch(e){H
                replyMsg = e.message+'..'+e.name;
@@ -100,7 +100,7 @@ function _getReplyMsg(msg){
         }
 
  
-    return '(0x100078) '+ replyMsg;
+    return Unicode.stringify('0x100015') + replyMsg;
 
 }
 
@@ -141,13 +141,9 @@ function _getHelp(){
 
   return replyMsg;
 }
-//b.1]: 計算中1:pow:function pow() { [native code] },M_PI:3.141592653589793,e:0.08181919084296556
-//2018-01-12T06:46:43.734155+00:00 app[web.1]: 計算中2:e2:0.006739496742333498,C1:0.00003846610604071013,T1:0.1808009963850583
-//2018-01-12T06:46:43.734236+00:00 app[web.1]: 計算中3:fp:0.402045968759012,Q1:0.42763390016178454,Q2:NaN,Q3:NaN,Q4NaN,lat:NaN
-//2018-01-12T06:46:43.734356+00:00 app[web.1]: 計算中4:Q5:NaN,Q6:NaN,lng:NaN
-//2018-01-12T06:46:43.734413+00:00 app[web.1]: 計算中5:lat:NaN,lng:NaN,M_PI:3.141592653589793
-//2018-01-12T06:46:43.734519+00:00 app[web.1]: 計算完畢:NaN,NaN
+
 function twd97_to_latlng(x, y) {
+	
   var pow = Math.pow, M_PI = Math.PI;
   var sin = Math.sin, cos = Math.cos, tan = Math.tan;
   var a = 6378137.0, b = 6356752.314245;
@@ -198,3 +194,20 @@ function twd97_to_latlng(x, y) {
     lng: lng
   };
 }
+
+var Unicode = {
+	stringify: function (str) {
+        var res = [],
+	    len = str.length;
+        for (var i = 0; i < len; ++i) {
+	       res[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
+	    }
+
+	    return str ? "\\u" + res.join("\\u") : "";
+	},
+    parse: function (str) {
+
+	        str = str.replace(/\\/g, "%");
+	        return unescape(str);
+	}
+};
