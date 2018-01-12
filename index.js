@@ -100,7 +100,7 @@ function _getReplyMsg(msg){
         }
 
  
-    return '(ok) '+ replyMsg;
+    return '(0x100078) '+ replyMsg;
 
 }
 
