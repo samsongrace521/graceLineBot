@@ -3,7 +3,8 @@ var express = require('express');
 
 var jQuery = require('jquery')
 const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+//var jsdom = require("node-jsdom");
+//const { JSDOM } = jsdom;
 
 var bot = linebot({
   channelId: '1553329312',
@@ -11,7 +12,7 @@ var bot = linebot({
   channelAccessToken: 'ZHcGSnnInWxVJkwWjz2TEQ4Rmu7GFIZ82nqK/nnPckbR1zw9z0anx90lCndweFGfOalYMXdtp4DW7CUJrtZ3HpSTwf6osEKNCrBdY2muaHYUR8Dq8skykzIAQbmea2pMPRXC7eTa6vIjJoDcP3nd8AdB04t89/1O/w1cDnyilFU='
 });
 
-JSDOM.env("", function(err, window) {
+jsdom.env("", function(err, window) {
     if (err) {
         console.error(err);
         return;

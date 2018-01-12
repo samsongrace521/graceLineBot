@@ -15,4 +15,8 @@
     "jsdom": "^11.5.1",
     "linebot": "^1.3.0"
   }
+  "repository" : { 
+   "type" : "git",
+   "url" : "https://git.heroku.com/grace-line-bot.git"
+ }
 }
