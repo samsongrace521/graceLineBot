@@ -11,7 +11,7 @@ var timer;
 var pm = [];
 _getJSON();
 
-//這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
+// 這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
    console.log('開始了!!!');
   if (event.message.type = 'text') {
@@ -23,13 +23,13 @@ bot.on('message', function(event) {
      }
 
    // var msg = '你好~~~';
-  //收到文字訊息時，直接把收到的訊息傳回去
+  // 收到文字訊息時，直接把收到的訊息傳回去
 
     event.reply(msg).then(function(data) {
-      // 傳送訊息成功時，可在此寫程式碼 
+      // 傳送訊息成功時，可在此寫程式碼
       console.log(msg);
     }).catch(function(error) {
-      // 傳送訊息失敗時，可在此寫程式碼 
+      // 傳送訊息失敗時，可在此寫程式碼
       console.log('錯誤產生，錯誤碼：'+error);
     });
   }
@@ -85,15 +85,21 @@ function _getReplyMsg(msg){
 
 function _getJSON() {
   clearTimeout(timer);
-  getJSON('http://opendata2.epa.gov.tw/AQX.json', function(error, response) {
-    response.forEach(function(e, i) {
-      pm[i] = [];
-      pm[i][0] = e.SiteName;
-      pm[i][1] = e['PM2.5'] * 1;
-      pm[i][2] = e.PM10 * 1;
-    });
-  });
-  timer = setInterval(_getJSON, 1800000); //每半小時抓取一次新資料
+	$.ajax({			
+		url : "http://opendata2.epa.gov.tw/AQX.json",
+		type: 'GET'
+	}).done(function(result) {
+		var pm = [];
+		$.each(result,function(i){
+			  pm[i] = [];
+		      pm[i][0] = this.SiteName;
+		      pm[i][1] = this['PM2.5'] * 1;
+		      pm[i][2] = this.PM10 * 1;
+		});
+	}).fail(function() {
+		debugger
+	});  
+  timer = setInterval(_getJSON, 1800000); // 每半小時抓取一次新資料
 }
 
 function _getHelp(){
