@@ -99,7 +99,7 @@ function _getReplyMsg(msg){
         }
 
  
-    return '0x100005'+ replyMsg;
+    return '(ok)'+ replyMsg;
 
 }
 
