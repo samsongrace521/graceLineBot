@@ -1,8 +1,6 @@
 var linebot = require('linebot');
 var express = require('express');
-const emojiSearch = require('demo-emoji-search');
-
-
+//const emojiSearch = require('demo-emoji-search');
 
 const jQuery = require('jquery')
 const jsdom = require("jsdom");
