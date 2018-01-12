@@ -100,7 +100,7 @@ function _getReplyMsg(msg){
         }
 
 
-    return '(1000B2)' +' 0x1000B2 '+' \u1000B2'+ replyMsg;
+    return  \u1000B2 + replyMsg;
 
 }
 
