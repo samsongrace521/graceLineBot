@@ -13,8 +13,9 @@ var bot = linebot({
   channelAccessToken: 'ZHcGSnnInWxVJkwWjz2TEQ4Rmu7GFIZ82nqK/nnPckbR1zw9z0anx90lCndweFGfOalYMXdtp4DW7CUJrtZ3HpSTwf6osEKNCrBdY2muaHYUR8Dq8skykzIAQbmea2pMPRXC7eTa6vIjJoDcP3nd8AdB04t89/1O/w1cDnyilFU='
 });
 
-var timer;
+var timer, timer_g;
 var pm = [];
+var dataMap = new HashMap();
 _getJSON();
 
 // 這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
@@ -53,8 +54,10 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
-    if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
-      replyMsg = 'hello!';
+    if(dataMap.get(msg) != null && dataMap.get(msg) != ''){
+        replyMsg = dataMap.get(msg);
+    // }else if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
+    //   replyMsg = 'hello!';
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
       replyMsg = _getHelp();
     } else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
@@ -89,7 +92,7 @@ function _getReplyMsg(msg) {
         replyMsg = wgsxdata.lat + ',' + wgsxdata.lng
       } catch (e) {
         
-        replyMsg = \0x100005+ e.message + '..' + e.name;
+        replyMsg = '\0x100005 '+ e.message + '..' + e.name;
       }
 
 
@@ -136,6 +139,68 @@ function _getJSON() {
 
   timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
 }
+
+function _getGoogleFormData() {
+  clearTimeout(timer_g);
+  console.log('開始撈google 表單資料');
+  require('jsdom/lib/old-api').env("", function(err, window) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    var $ = require("jquery")(window);
+    $.ajax({
+      url: "https://spreadsheets.google.com/feeds/list/1Zr1aX_67ANZz-9k1wocTe-d40hYjWYTKT7lti2ndLmI/od6/public/values?alt=json",
+      type: 'GET'
+    }).done(function(result) {
+      $.each(result, function(i) {
+        var tmp = result['feed']['entry'];
+        tmp.forEach(function(e,i){
+          var key = e.gsx$key.$t;
+          var value = e.gsx$value.$t;
+          dataMap.put(key, value);
+        });
+      });
+      console.log('撈完google 表單資料' + pm.length);
+    }).fail(function() {
+      debugger
+    });
+  });
+
+  timer_g = setInterval(_getGoogleFormData, 60 * 60 * 30); // 每半小時抓取一次新資料
+}
+
+
+function _getJSON() {
+	  clearTimeout(timer);
+	  console.log('開始撈pm2.5公開資料');
+	  require('jsdom/lib/old-api').env("", function(err, window) {
+	    if (err) {
+	      console.error(err);
+	      return;
+	    }
+
+	    var $ = require("jquery")(window);
+	    $.ajax({
+	      url: "http://opendata2.epa.gov.tw/AQX.json",
+	      type: 'GET'
+	    }).done(function(result) {
+	      pm = [];
+	      $.each(result, function(i) {
+	        pm[i] = [];
+	        pm[i][0] = this.SiteName;
+	        pm[i][1] = this['PM2.5'] * 1;
+	        pm[i][2] = this.PM10 * 1;
+	      });
+	      console.log('撈完pm2.5公開資料' + pm.length);
+	    }).fail(function() {
+	      debugger
+	    });
+	  });
+
+	  timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
+	}
 
 function _getHelp() {
   var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5  2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
