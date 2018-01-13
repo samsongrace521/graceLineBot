@@ -19,27 +19,25 @@ _getJSON();
 
 // 這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
-   console.log('開始了!!!');
+  console.log('開始了!!!');
   if (event.message.type = 'text') {
-    var msg ='';
-     try{
-         msg = _getReplyMsg(event.message.text);
-     }catch(e){
-         msg = e.message;
-     }
+    var msg = '';
+    try {
+      msg = _getReplyMsg(event.message.text);
+    } catch (e) {
+      msg = e.message;
+    }
+    // 收到文字訊息時，直接把收到的訊息傳回去
+    if (msg != null) {
+      event.reply(msg).then(function(data) {
+        // 傳送訊息成功時，可在此寫程式碼
+        console.log(msg);
+      }).catch(function(error) {
+        // 傳送訊息失敗時，可在此寫程式碼
+        console.log('錯誤產生，錯誤碼：' + error);
+      });
+    }
 
-   // var msg = '你好~~~';
-  // 收到文字訊息時，直接把收到的訊息傳回去
-	if(msg != null){
-		 event.reply(msg).then(function(data) {
-		      // 傳送訊息成功時，可在此寫程式碼
-		      console.log(msg);
-		    }).catch(function(error) {
-		      // 傳送訊息失敗時，可在此寫程式碼
-		      console.log('錯誤產生，錯誤碼：'+error);
-		    });
-	}
-   
   }
 });
 const app = express();
@@ -52,59 +50,60 @@ var server = app.listen(process.env.PORT || 8080, function() {
 });
 
 
-function _getReplyMsg(msg){
-    var replyMsg = '';
-     try{  
-        if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
-        	replyMsg = 'hello!';
-        }else if (msg.toUpperCase().indexOf('HELP') != -1) {
-            replyMsg = _getHelp();
-        }else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
-        	if(pm!=null && pm.length > 0){
-        		if(msg.indexOf('區域') != -1){
-        			replyMsg='你可以查詢的區域有: ';
-        			pm.forEach(function(e, i) {                       
-                        replyMsg += e[0]+' ';
-                    });
-        		}else{
-        			   pm.forEach(function(e, i) {
-                           if (msg.indexOf(e[0]) != -1) {
-                             replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
-                           }
-                         });
-        		}
-        	 
-        	    
-        	}else{
-        		  replyMsg = '還沒撈到資料';
-        	}
-        
-
-            if (replyMsg == '') {
-              replyMsg = '請輸入正確的地點';
+function _getReplyMsg(msg) {
+  var replyMsg = '';
+  try {
+    if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
+      replyMsg = 'hello!';
+    } else if (msg.toUpperCase().indexOf('HELP') != -1) {
+      replyMsg = _getHelp();
+    } else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
+      if (pm != null && pm.length > 0) {
+        if (msg.indexOf('區域') != -1) {
+          replyMsg = '你可以查詢的區域有: ';
+          pm.forEach(function(e, i) {
+            replyMsg += e[0] + ' ';
+          });
+        } else {
+          pm.forEach(function(e, i) {
+            if (msg.indexOf(e[0]) != -1) {
+              replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
             }
-        }else if(msg.indexOf('經緯度') != -1){
-          try{
-              var gisdata =  msg.replace('經緯度','').split(',');
-              console.log('>>>>'+gisdata[0].replace('經緯度','')+','+gisdata[1]);
-              var wgsxdata = twd97_to_latlng(Number(gisdata[0]), Number(gisdata[1]));
-              replyMsg = wgsxdata.lat+','+wgsxdata.lng
-          }catch(e){H
-               replyMsg = e.message+'..'+e.name;
-          }
-          
-
-        }
-
-// if (replyMsg == '') {
-// replyMsg = '不知道「'+msg+'」是什麼意思 :p';
-// }
- }catch(e){
-             replyMsg = e.message+'..'+e.name;
+          });
         }
 
 
-    return  replyMsg;
+      } else {
+        replyMsg = '還沒撈到資料';
+      }
+
+
+      if (replyMsg == '') {
+        replyMsg = '請輸入正確的地點';
+      }
+    } else if (msg.indexOf('經緯度') != -1) {
+      try {
+        var gisdata = msg.replace('經緯度', '').split(',');
+        console.log('>>>>' + gisdata[0].replace('經緯度', '') + ',' + gisdata[1]);
+        var wgsxdata = twd97_to_latlng(Number(gisdata[0]), Number(gisdata[1]));
+        replyMsg = wgsxdata.lat + ',' + wgsxdata.lng
+      } catch (e) {
+        
+        replyMsg = \0x100005+ e.message + '..' + e.name;
+      }
+
+
+    }
+
+    // if (replyMsg == '') {
+    // replyMsg = '不知道「'+msg+'」是什麼意思 :p';
+    // }
+  } catch (e) {
+    replyMsg = e.message + '..' + e.name;
+  }
+
+
+  return replyMsg;
 
 }
 
@@ -112,33 +111,33 @@ function _getJSON() {
   clearTimeout(timer);
   console.log('開始撈pm2.5公開資料');
   require('jsdom/lib/old-api').env("", function(err, window) {
-	    if (err) {
-	        console.error(err);
-	        return;
-	    }
-	 
-	    var $ = require("jquery")(window);
-	    $.ajax({			
-			url : "http://opendata2.epa.gov.tw/AQX.json",
-			type: 'GET'
-		}).done(function(result) {
-			 pm = [];
-			$.each(result,function(i){
-				  pm[i] = [];
-			      pm[i][0] = this.SiteName;
-			      pm[i][1] = this['PM2.5'] * 1;
-			      pm[i][2] = this.PM10 * 1;
-			});
-			  console.log('撈完pm2.5公開資料'+pm.length);
-		}).fail(function() {
-			debugger
-		});  
-	});
- 
-  timer = setInterval(_getJSON, 60*30); // 每半小時抓取一次新資料
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    var $ = require("jquery")(window);
+    $.ajax({
+      url: "http://opendata2.epa.gov.tw/AQX.json",
+      type: 'GET'
+    }).done(function(result) {
+      pm = [];
+      $.each(result, function(i) {
+        pm[i] = [];
+        pm[i][0] = this.SiteName;
+        pm[i][1] = this['PM2.5'] * 1;
+        pm[i][2] = this.PM10 * 1;
+      });
+      console.log('撈完pm2.5公開資料' + pm.length);
+    }).fail(function() {
+      debugger
+    });
+  });
+
+  timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
 }
 
-function _getHelp(){
+function _getHelp() {
   var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5  2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
 
 
@@ -147,12 +146,19 @@ function _getHelp(){
 }
 
 function twd97_to_latlng(x, y) {
-  var pow = Math.pow, M_PI = Math.PI;
-  var sin = Math.sin, cos = Math.cos, tan = Math.tan;
-  var a = 6378137.0, b = 6356752.314245;
-  var lng0 = 121 * M_PI / 180, k0 = 0.9999, dx = 250000, dy = 0;
+  var pow = Math.pow,
+    M_PI = Math.PI;
+  var sin = Math.sin,
+    cos = Math.cos,
+    tan = Math.tan;
+  var a = 6378137.0,
+    b = 6356752.314245;
+  var lng0 = 121 * M_PI / 180,
+    k0 = 0.9999,
+    dx = 250000,
+    dy = 0;
   var e = pow((1 - pow(b, 2) / pow(a, 2)), 0.5);
- 
+
   x -= dx;
   y -= dy;
 
@@ -181,17 +187,17 @@ function twd97_to_latlng(x, y) {
   var Q3 = (5 + 3 * T1 + 10 * C1 - 4 * pow(C1, 2) - 9 * e2) * pow(D, 4) / 24.0;
   var Q4 = (61 + 90 * T1 + 298 * C1 + 45 * pow(T1, 2) - 3 * pow(C1, 2) - 252 * e2) * pow(D, 6) / 720.0;
   var lat = fp - Q1 * (Q2 - Q3 + Q4);
-  console.log('計算中3:fp:'+fp+',Q1:'+Q1+',Q2:'+Q2+',Q3:'+Q3+',Q4'+Q4+',lat:'+lat);
+  console.log('計算中3:fp:' + fp + ',Q1:' + Q1 + ',Q2:' + Q2 + ',Q3:' + Q3 + ',Q4' + Q4 + ',lat:' + lat);
   var Q5 = D;
   var Q6 = (1 + 2 * T1 + C1) * pow(D, 3) / 6;
   var Q7 = (5 - 2 * C1 + 28 * T1 - 3 * pow(C1, 2) + 8 * e2 + 24 * pow(T1, 2)) * pow(D, 5) / 120.0;
   var lng = lng0 + (Q5 - Q6 + Q7) / cos(fp);
-  console.log('計算中4:Q5:'+Q5+',Q6:'+Q6+',lng:'+lng);
+  console.log('計算中4:Q5:' + Q5 + ',Q6:' + Q6 + ',lng:' + lng);
   lat = (lat * 180) / M_PI;
   lng = (lng * 180) / M_PI;
-  console.log('計算中5:lat:'+lat+',lng:'+lng+',M_PI:'+M_PI);
-  
-  console.log('計算完畢:'+lat+','+lng);
+  console.log('計算中5:lat:' + lat + ',lng:' + lng + ',M_PI:' + M_PI);
+
+  console.log('計算完畢:' + lat + ',' + lng);
   return {
     lat: lat.toFixed(6),
     lng: lng.toFixed(6)
@@ -199,18 +205,18 @@ function twd97_to_latlng(x, y) {
 }
 
 var Unicode = {
-	stringify: function (str) {
-        var res = [],
-	    len = str.length;
-        for (var i = 0; i < len; ++i) {
-	       res[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
-	    }
+  stringify: function(str) {
+    var res = [],
+      len = str.length;
+    for (var i = 0; i < len; ++i) {
+      res[i] = ("00" + str.charCodeAt(i).toString(16)).slice(-4);
+    }
 
-	    return str ? "\\u" + res.join("\\u") : "";
-	},
-    parse: function (str) {
+    return str ? "\\u" + res.join("\\u") : "";
+  },
+  parse: function(str) {
 
-	        str = str.replace(/\\/g, "%");
-	        return unescape(str);
-	}
+    str = str.replace(/\\/g, "%");
+    return unescape(str);
+  }
 };
