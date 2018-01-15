@@ -2,8 +2,8 @@ var linebot = require('linebot');
 var express = require('express');
 var HashMap = require('hashmap');
 
-const jQuery = require('jquery')
-const jsdom = require("jsdom");
+// const jQuery = require('jquery')
+// const jsdom = require("jsdom");
 // var jsdom = require("node-jsdom");
 // const { JSDOM } = jsdom;
 
@@ -21,14 +21,16 @@ _getGoogleFormData();
 
 // 這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
-  console.log('開始了!!!');
+
   if (event.message.type = 'text') {
     var msg = '';
+      console.log('開始了!!!'+event.message.text);
     try {
       msg = _getReplyMsg(event.message.text);
     } catch (e) {
       msg = e.message;
     }
+
     // 收到文字訊息時，直接把收到的訊息傳回去
     if (msg != null) {
       event.reply(msg).then(function(data) {
@@ -55,6 +57,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
+    console.log('>>>>>>'+msg+'...'+dataMap.get(msg) );
     if(dataMap.get(msg) != null && dataMap.get(msg) != ''){
         replyMsg = dataMap.get(msg);
     // }else if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
