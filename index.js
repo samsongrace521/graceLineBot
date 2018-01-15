@@ -158,6 +158,7 @@ function _getGoogleFormData() {
       url: "https://spreadsheets.google.com/feeds/list/1Zr1aX_67ANZz-9k1wocTe-d40hYjWYTKT7lti2ndLmI/od6/public/values?alt=json",
       type: 'GET'
     }).done(function(result) {
+        console.log('撈完google 表單資料 開始裝map' );
       $.each(result, function(i) {
         var tmp = result['feed']['entry'];
         tmp.forEach(function(e,i){
@@ -168,6 +169,7 @@ function _getGoogleFormData() {
       });
       console.log('撈完google 表單資料' + pm.length);
     }).fail(function() {
+       console.log('撈完google 表單資料 發生錯誤' );
       debugger
     });
   });
