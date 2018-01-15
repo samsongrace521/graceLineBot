@@ -94,12 +94,10 @@ function _getReplyMsg(msg) {
         console.log('>>>>' + gisdata[0].replace('經緯度', '') + ',' + gisdata[1]);
         var wgsxdata = twd97_to_latlng(Number(gisdata[0]), Number(gisdata[1]));
         replyMsg = wgsxdata.lat + ',' + wgsxdata.lng
-      } catch (e) {
-        
+
+      } catch (e) {        
         replyMsg = '\0x100005 '+ e.message + '..' + e.name;
       }
-
-
     }
 
     // if (replyMsg == '') {
@@ -110,7 +108,7 @@ function _getReplyMsg(msg) {
   }
 
 
-  return replyMsg;
+  return '\0x100005 '+ replyMsg;
 
 }
 
@@ -164,7 +162,9 @@ function _getGoogleFormData() {
         tmp.forEach(function(e,i){
           var key = e.gsx$key.$t;
           var value = e.gsx$value.$t;
+          console.log('>>>>key: '+key+".."+value );
           dataMap.put(key, value);
+          console.log('>>>>進來了key: '+key+".."+value );
         });
       });
       console.log('撈完google 表單資料' + pm.length);
