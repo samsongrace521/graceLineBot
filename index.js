@@ -163,7 +163,7 @@ function _getGoogleFormData() {
           var key = e.gsx$key.$t;
           var value = e.gsx$value.$t;
           console.log('>>>>key: '+key+".."+value );
-          dataMap.put(key, value);
+          dataMap[key] = value;
           console.log('>>>>進來了key: '+key+".."+value );
         });
       });
@@ -174,7 +174,7 @@ function _getGoogleFormData() {
     });
   });
 
-  timer_g = setInterval(_getGoogleFormData, 60 * 60 * 30); // 每半小時抓取一次新資料
+  timer_g = setInterval(_getGoogleFormData, 60 *  30); // 每半小時抓取一次新資料
 }
 
 
