@@ -24,7 +24,7 @@ bot.on('message', function(event) {
 
   if (event.message.type = 'text') {
     var msg = '';
-      console.log('開始了!!!'+event.message.text);
+    console.log('開始了!!!' + event.message.text);
     try {
       msg = _getReplyMsg(event.message.text);
     } catch (e) {
@@ -57,11 +57,9 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
-    console.log('>>>>>>'+msg+'...'+ dataMap[msg] );
-    if(dataMap[msg] != null && dataMap[msg] != ''){
-        replyMsg = dataMap[msg];
-    // }else if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
-    //   replyMsg = 'hello!';
+    console.log('>>>>>>' + msg + '...' + dataMap[msg]);
+    if (dataMap[msg] != null && dataMap[msg] != '') {
+      replyMsg = dataMap[msg];
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
       replyMsg = _getHelp();
     } else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
@@ -72,22 +70,21 @@ function _getReplyMsg(msg) {
             replyMsg += e[0] + ' ';
           });
         } else {
-          pm.forEach(function(e, i) {
+          pm.forEach(function(e, i) {,
             if (msg.indexOf(e[0]) != -1) {
               replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
             }
           });
         }
-
-
+        if (replyMsg == '') {
+          replyMsg = '請輸入正確的地點';
+        }
       } else {
         replyMsg = '還沒撈到資料';
       }
 
 
-      if (replyMsg == '') {
-        replyMsg = '請輸入正確的地點';
-      }
+
     } else if (msg.indexOf('經緯度') != -1) {
       try {
         var gisdata = msg.replace('經緯度', '').split(',');
@@ -95,8 +92,8 @@ function _getReplyMsg(msg) {
         var wgsxdata = twd97_to_latlng(Number(gisdata[0]), Number(gisdata[1]));
         replyMsg = wgsxdata.lat + ',' + wgsxdata.lng
 
-      } catch (e) {        
-        replyMsg = '\0x100005 '+ e.message + '..' + e.name;
+      } catch (e) {
+        replyMsg = e.message + '..' + e.name;
       }
     }
 
@@ -108,7 +105,7 @@ function _getReplyMsg(msg) {
   }
 
 
-  return '\0x100005 '+ replyMsg;
+  return  replyMsg;
 
 }
 
@@ -156,21 +153,21 @@ function _getGoogleFormData() {
       url: "https://spreadsheets.google.com/feeds/list/1Zr1aX_67ANZz-9k1wocTe-d40hYjWYTKT7lti2ndLmI/od6/public/values?alt=json",
       type: 'GET'
     }).done(function(result) {
-        console.log('撈完google 表單資料 開始裝map' );
+      console.log('撈完google 表單資料 開始裝map');
       $.each(result, function(i) {
         var tmp = result['feed']['entry'];
-        tmp.forEach(function(e,i){
+        tmp.forEach(function(e, i) {
           var key = e.gsx$key.$t;
-          var value = e.gsx$value.$t;     
-          if(key != null && key != ''){
-              dataMap[key] = value;
-          } 
-         
+          var value = e.gsx$value.$t;
+          if (key != null && key != '') {
+            dataMap[key] = value;
+          }
+
         });
       });
       console.log('撈完google 表單資料' + dataMap.length);
     }).fail(function() {
-       console.log('撈完google 表單資料 發生錯誤' );
+      console.log('撈完google 表單資料 發生錯誤');
       debugger
     });
   });
@@ -180,34 +177,34 @@ function _getGoogleFormData() {
 
 
 function _getJSON() {
-	  clearTimeout(timer);
-	  console.log('開始撈pm2.5公開資料');
-	  require('jsdom/lib/old-api').env("", function(err, window) {
-	    if (err) {
-	      console.error(err);
-	      return;
-	    }
+  clearTimeout(timer);
+  console.log('開始撈pm2.5公開資料');
+  require('jsdom/lib/old-api').env("", function(err, window) {
+    if (err) {
+      console.error(err);
+      return;
+    }
 
-	    var $ = require("jquery")(window);
-	    $.ajax({
-	      url: "http://opendata2.epa.gov.tw/AQX.json",
-	      type: 'GET'
-	    }).done(function(result) {
-	      pm = [];
-	      $.each(result, function(i) {
-	        pm[i] = [];
-	        pm[i][0] = this.SiteName;
-	        pm[i][1] = this['PM2.5'] * 1;
-	        pm[i][2] = this.PM10 * 1;
-	      });
-	      console.log('撈完pm2.5公開資料' + pm.length);
-	    }).fail(function() {
-	      debugger
-	    });
-	  });
+    var $ = require("jquery")(window);
+    $.ajax({
+      url: "http://opendata2.epa.gov.tw/AQX.json",
+      type: 'GET'
+    }).done(function(result) {
+      pm = [];
+      $.each(result, function(i) {
+        pm[i] = [];
+        pm[i][0] = this.SiteName;
+        pm[i][1] = this['PM2.5'] * 1;
+        pm[i][2] = this.PM10 * 1;
+      });
+      console.log('撈完pm2.5公開資料' + pm.length);
+    }).fail(function() {
+      debugger
+    });
+  });
 
-	  timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
-	}
+  timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
+}
 
 function _getHelp() {
   var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5  2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
