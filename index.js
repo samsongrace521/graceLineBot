@@ -57,9 +57,9 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
-    console.log('>>>>>>'+msg+'...'+dataMap.get(msg) );
-    if(dataMap.get(msg) != null && dataMap.get(msg) != ''){
-        replyMsg = dataMap.get(msg);
+    console.log('>>>>>>'+msg+'...'+ dataMap[msg] );
+    if(dataMap[msg] != null && dataMap[msg] != ''){
+        replyMsg = dataMap[msg];
     // }else if (msg.toUpperCase().indexOf('HI') != -1 || msg.indexOf('你好') != -1 || msg.indexOf('妳好') != -1) {
     //   replyMsg = 'hello!';
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
@@ -161,20 +161,21 @@ function _getGoogleFormData() {
         var tmp = result['feed']['entry'];
         tmp.forEach(function(e,i){
           var key = e.gsx$key.$t;
-          var value = e.gsx$value.$t;
-          console.log('>>>>key: '+key+".."+value );
-          dataMap[key] = value;
-          console.log('>>>>進來了key: '+key+".."+value );
+          var value = e.gsx$value.$t;     
+          if(key != null && key != ''){
+              dataMap[key] = value;
+          } 
+         
         });
       });
-      console.log('撈完google 表單資料' + pm.length);
+      console.log('撈完google 表單資料' + dataMap.length);
     }).fail(function() {
        console.log('撈完google 表單資料 發生錯誤' );
       debugger
     });
   });
 
-  timer_g = setInterval(_getGoogleFormData, 60 *  30); // 每半小時抓取一次新資料
+  timer_g = setInterval(_getGoogleFormData, 60 * 60 * 30); // 每半小時抓取一次新資料
 }
 
 
