@@ -70,7 +70,7 @@ function _getReplyMsg(msg) {
             replyMsg += e[0] + ' ';
           });
         } else {
-          pm.forEach(function(e, i) {,
+          pm.forEach(function(e, i) {
             if (msg.indexOf(e[0]) != -1) {
               replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
             }
