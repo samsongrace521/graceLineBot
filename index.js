@@ -4,7 +4,7 @@ var HashMap = require('hashmap');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 const googleTool = require('./googleFunction');
-let val = googleTool.getData(); // val is "Hello"  
+let val = googleTool.getData(); 
 console.log('~~~~index: '+val);
 
 
