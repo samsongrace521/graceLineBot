@@ -3,7 +3,7 @@ var express = require('express');
 var HashMap = require('hashmap');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
-const myModule = require('./googleFunction');
+const googleTool = require('./googleFunction');
 let val = myModule.hello(); // val is "Hello"  
 
 
@@ -18,11 +18,11 @@ var bot = linebot({
   channelAccessToken: 'ZHcGSnnInWxVJkwWjz2TEQ4Rmu7GFIZ82nqK/nnPckbR1zw9z0anx90lCndweFGfOalYMXdtp4DW7CUJrtZ3HpSTwf6osEKNCrBdY2muaHYUR8Dq8skykzIAQbmea2pMPRXC7eTa6vIjJoDcP3nd8AdB04t89/1O/w1cDnyilFU='
 });
 
-var timer, timer_g;
+var timer;
 var pm = [];
-var dataMap = new HashMap();
+
 _getJSON();
-_getGoogleFormData();
+googleTool._getGoogleFormData();
 
 // 這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
@@ -62,7 +62,8 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
-    console.log('>>>>>>' + msg + '...' + dataMap[msg]);
+    var dataMap = googleTool.getData();
+    console.log('>>>>>>' + msg + '...' + dataMap + dataMap[msg] );
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
@@ -144,45 +145,8 @@ function _getJSON() {
   timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
 }
 
-function _getGoogleFormData() {
-  clearTimeout(timer_g);
-  console.log('開始撈google 表單資料');
-  require('jsdom/lib/old-api').env("", function(err, window) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    var $ = require("jquery")(window);
-    $.ajax({
-      url: "https://spreadsheets.google.com/feeds/list/1Zr1aX_67ANZz-9k1wocTe-d40hYjWYTKT7lti2ndLmI/od6/public/values?alt=json",
-      type: 'GET'
-    }).done(function(result) {
-      console.log('撈完google 表單資料 開始裝map');
-      $.each(result, function(i) {
-        var tmp = result['feed']['entry'];
-        tmp.forEach(function(e, i) {
-          var key = e.gsx$key.$t;
-          var value = e.gsx$value.$t;
-          if (key != null && key != '') {
-            dataMap[key] = value;
-          }
-
-        });
-      });
-      console.log('撈完google 表單資料' + dataMap.length);
-    }).fail(function() {
-      console.log('撈完google 表單資料 發生錯誤');
-      debugger
-    });
-  });
-
-  timer_g = setInterval(_getGoogleFormData, 60 * 60 * 30); // 每半小時抓取一次新資料
-}
-
 
 function _getJSON() {
-  clearTimeout(timer);
   console.log('開始撈pm2.5公開資料');
   require('jsdom/lib/old-api').env("", function(err, window) {
     if (err) {
