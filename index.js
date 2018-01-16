@@ -4,7 +4,7 @@ var HashMap = require('hashmap');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 const googleTool = require('./googleFunction');
-let val = myModule.hello(); // val is "Hello"  
+let val = googleTool.hello(); // val is "Hello"  
 
 
 // const jQuery = require('jquery')

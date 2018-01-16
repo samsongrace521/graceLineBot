@@ -4,6 +4,7 @@ var  timer_g;
 var dataMap = new HashMap();
 module.exports = {
 	getData: function(){
+		console.log('hello~~~~~~~~~~~~~~~~~~~~this:'+this);
 		return this.dataMap;
 	}
 
