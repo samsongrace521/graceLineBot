@@ -17,7 +17,7 @@ module.exports = {
 		return this.dataMap;
 	},
 	_getGoogleFormData: function() {
-		clearTimeout(timer_g);
+		clearTimeout(this.timer_g);
 		console.log('開始撈google 表單資料');
 		require('jsdom/lib/old-api').env("", function(err, window) {
 			if (err) {
@@ -37,19 +37,19 @@ module.exports = {
 						var key = e.gsx$key.$t;
 						var value = e.gsx$value.$t;
 						if (key != null && key != '') {
-							dataMap[key] = value;
+							this.dataMap[key] = value;
 						}
 
 					});
 				});
-				console.log('撈完google 表單資料' + dataMap.length);
+				console.log('撈完google 表單資料' + this.dataMap.length);
 			}).fail(function() {
 				console.log('撈完google 表單資料 發生錯誤');
 				debugger
 			});
 		});
 
-		timer_g = setInterval(this._getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
+		this.timer_g = setInterval(this._getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
 	}
 }
 
