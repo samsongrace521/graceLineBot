@@ -1,6 +1,11 @@
 var linebot = require('linebot');
 var express = require('express');
 var HashMap = require('hashmap');
+var google = require('googleapis');
+var googleAuth = require('google-auth-library');
+const myModule = require('./googleFunction');
+let val = myModule.hello(); // val is "Hello"  
+
 
 // const jQuery = require('jquery')
 // const jsdom = require("jsdom");
