@@ -1,11 +1,12 @@
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
-const googleTool = require('./googleFunction');
+
 var HashMap = require('hashmap');
 
-
+console.log('hello~~~~~~~~~~~~~~~~~~~~1');
 var  timer_g;
 var dataMap = new HashMap();
+console.log('hello~~~~~~~~~~~~~~~~~~~~2');
 module.exports = {
 	getData: function(){
 		console.log('hello~~~~~~~~~~~~~~~~~~~~this:'+this);
