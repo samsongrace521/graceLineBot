@@ -22,7 +22,7 @@ var timer;
 var pm = [];
 
 _getJSON();
-googleTool._getGoogleFormData();
+// googleTool._getGoogleFormData();
 
 // 這一段的程式是專門處理當有人傳送文字訊息給LineBot時，我們的處理回應
 bot.on('message', function(event) {
