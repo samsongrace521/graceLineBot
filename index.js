@@ -4,13 +4,9 @@ var HashMap = require('hashmap');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 const googleTool = require('./googleFunction');
-let val = googleTool.hello(); // val is "Hello"  
+let val = googleTool.getData(); // val is "Hello"  
+console.log('~~~~'+val);
 
-
-// const jQuery = require('jquery')
-// const jsdom = require("jsdom");
-// var jsdom = require("node-jsdom");
-// const { JSDOM } = jsdom;
 
 var bot = linebot({
   channelId: '1553329312',
