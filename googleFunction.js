@@ -11,7 +11,7 @@ module.exports = {
 	hello: function() {
 		console.log('hello~~~~~~~~~~~~~~~~~~~~2');
 		return "Hello";
-	}
+	},
 	getData: function(){
 		console.log('hello~~~~~~~~~~~~~~~~~~~~this:'+this);
 		return this.dataMap;
