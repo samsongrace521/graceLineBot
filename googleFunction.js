@@ -1,4 +1,8 @@
+var google = require('googleapis');
 var googleAuth = require('google-auth-library');
+const googleTool = require('./googleFunction');
+var HashMap = require('hashmap');
+
 
 var  timer_g;
 var dataMap = new HashMap();
