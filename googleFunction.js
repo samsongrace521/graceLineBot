@@ -49,7 +49,7 @@ module.exports = {
 			});
 		});
 
-		timer_g = setInterval(_getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
+		timer_g = setInterval(this._getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
 	}
 }
 
