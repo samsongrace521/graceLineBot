@@ -61,14 +61,14 @@ function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
     var dataMap = googleTool._getData();
-    console.log('>>>>>>' + msg +'..'+msg.indexOf('#'));
+    console.log('>>>>>>' + msg + '..' + msg.indexOf('#'));
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
 
     } else if (msg.indexOf('#') == 0) {
       var teachdata = msg.replace('#', '').split(',');
       googleTool._appendMyRow(teachdata[0], teachdata[1]);
-
+      replyMsg = '謝謝妳大恩大德告訴我, 我已經知道' + teachdata[0] + '就是' + teachdata[1] + '的意思囉';
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
       replyMsg = _getHelp();
 
