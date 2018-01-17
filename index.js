@@ -1,8 +1,7 @@
 var linebot = require('linebot');
 var express = require('express');
 var HashMap = require('hashmap');
-var google = require('googleapis');
-var googleAuth = require('google-auth-library');
+
 const GoogleFn = require('./googleFunction');
 var googleTool = new GoogleFn();
 
@@ -22,8 +21,9 @@ googleTool._getGoogleFormData();
 bot.on('message', function(event) {
 
   if (event.message.type = 'text') {
+    var myId = event.source.userId;
     var msg = '';
-    console.log('開始了!!!' + event.message.text);
+    console.log('開始了!!!' + event.message.text + '..' +myId);
     try {
       msg = _getReplyMsg(event.message.text);
     } catch (e) {
@@ -60,7 +60,7 @@ function _getReplyMsg(msg) {
     console.log('>>>>>>' + msg + '...datamap: ' + dataMap + dataMap[msg]);
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
-      
+
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
       replyMsg = _getHelp();
 
@@ -81,13 +81,13 @@ function _getReplyMsg(msg) {
 
     // if (replyMsg == '') {
     // replyMsg = '不知道「'+msg+'」是什麼意思 :p';
-    // }
+    // }0x100005  0x100010
   } catch (e) {
     replyMsg = e.message + '..' + e.name;
   }
 
 
-  return replyMsg;
+  return '/0x100005' + replyMsg;
 
 }
 
