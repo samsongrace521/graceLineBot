@@ -23,6 +23,7 @@ bot.on('message', function(event) {
   if (event.message.type = 'text') {
     var myId = event.source.userId;
     var msg = '';
+    googleTool._appendMyRow('abc');
     console.log('開始了!!!' + event.message.text + '..' +myId);
     try {
       msg = _getReplyMsg(event.message.text);
@@ -87,7 +88,7 @@ function _getReplyMsg(msg) {
   }
 
 
-  return '/0x100005' + replyMsg;
+  return '0x100005' + replyMsg;
 
 }
 
