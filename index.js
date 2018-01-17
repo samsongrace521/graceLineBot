@@ -138,7 +138,7 @@ function _getJSON() {
     });
   });
 
-  timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
+  timer = setInterval(_getJSON, 60 * 1000 * 30 ); // 每半小時抓取一次新資料
 }
 
 

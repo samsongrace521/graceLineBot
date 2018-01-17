@@ -40,14 +40,14 @@ class googleFunction {
 
 					});
 				});
-				console.log('撈完google 表單資料' + dataMap.length);
+				console.log('撈完google 表單資料' + dataMap);
 			}).fail(function() {
 				console.log('撈完google 表單資料 發生錯誤');
 				debugger
 			});
 		});
 
-		timer_g = setInterval(new googleFunction()._getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
+		timer_g = setInterval(new googleFunction()._getGoogleFormData, 60 * 1000 ); // 每半小時抓取一次新資料
 	}
 }
 
