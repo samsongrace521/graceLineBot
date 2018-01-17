@@ -7,7 +7,7 @@ var timer_g;
 var dataMap = new HashMap();
 dataMap['1'] = '1';
 dataMap['2'] = '2';
-module.exports = googleFunction;
+
 
 class googleFunction{
 	_getData() {
@@ -50,3 +50,7 @@ class googleFunction{
 		this.timer_g = setInterval(this._getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
 	}
 }
+
+
+
+module.exports = googleFunction;
