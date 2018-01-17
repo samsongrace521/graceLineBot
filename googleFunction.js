@@ -2,7 +2,6 @@ var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var HashMap = require('hashmap');
 
-console.log('hello~~~~~~~~~~~~~~~~~~~~1');
 var timer_g;
 var dataMap = new HashMap();
 dataMap['1'] = '1';
@@ -10,8 +9,7 @@ dataMap['2'] = '2';
 
 
 class googleFunction {
-	_getData() {
-		console.log('hello~~~~~~~~~~~~~~~~~~~~this:' + dataMap);
+	_getData() {	
 		return dataMap;
 	};
 	_getGoogleFormData() {

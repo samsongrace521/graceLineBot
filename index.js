@@ -5,8 +5,6 @@ var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 const GoogleFn = require('./googleFunction');
 var googleTool = new GoogleFn();
-console.log('~~~~index: ' + googleTool._getData());
-
 
 var bot = linebot({
   channelId: '1553329312',
@@ -65,25 +63,7 @@ function _getReplyMsg(msg) {
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
       replyMsg = _getHelp();
     } else if (msg.toUpperCase().indexOf('PM2.5') != -1) {
-      if (pm != null && pm.length > 0) {
-        if (msg.indexOf('區域') != -1) {
-          replyMsg = '你可以查詢的區域有: ';
-          pm.forEach(function(e, i) {
-            replyMsg += e[0] + ' ';
-          });
-        } else {
-          pm.forEach(function(e, i) {
-            if (msg.indexOf(e[0]) != -1) {
-              replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
-            }
-          });
-        }
-        if (replyMsg == '') {
-          replyMsg = '請輸入正確的地點';
-        }
-      } else {
-        replyMsg = '還沒撈到資料';
-      }
+      replyMsg = _processPM25();
 
 
 
@@ -138,11 +118,35 @@ function _getJSON() {
     });
   });
 
-  timer = setInterval(_getJSON, 60 * 1000 * 30 ); // 每半小時抓取一次新資料
+  timer = setInterval(_getJSON, 60 * 1000 * 30); // 每半小時抓取一次新資料
 }
 
 function _getHelp() {
   var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5  2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
+  return replyMsg;
+}
+
+function _processPM25(msg) {
+  var replyMsg;
+  if (pm != null && pm.length > 0) {
+    if (msg.indexOf('區域') != -1) {
+      replyMsg = '你可以查詢的區域有: ';
+      pm.forEach(function(e, i) {
+        replyMsg += e[0] + ' ';
+      });
+    } else {
+      pm.forEach(function(e, i) {
+        if (msg.indexOf(e[0]) != -1) {
+          replyMsg = e[0] + '的 PM2.5 數值為 ' + e[1];
+        }
+      });
+    }
+    if (replyMsg == '') {
+      replyMsg = '請輸入正確的地點';
+    }
+  } else {
+    replyMsg = '還沒撈到資料';
+  }
   return replyMsg;
 }
 
