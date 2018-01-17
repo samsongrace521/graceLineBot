@@ -61,11 +61,11 @@ function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
     var dataMap = googleTool._getData();
-    console.log('>>>>>>' + msg + '...datamap: ' + dataMap + dataMap[msg]);
+    console.log('>>>>>>' + msg +'..'+msg.indexOf('#'));
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
 
-    } else if (msg.indexOf(0) == '#') {
+    } else if (msg.indexOf('#') == 0) {
       var teachdata = msg.replace('#', '').split(',');
       googleTool._appendMyRow(teachdata[0], teachdata[1]);
 
