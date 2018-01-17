@@ -10,12 +10,12 @@ dataMap['2'] = '2';
 module.exports = _getData;
 module.exports = _getGoogleFormData;
 
-_getData: function() {
-		console.log('hello~~~~~~~~~~~~~~~~~~~~this:' + this.dataMap);
-		return this.dataMap;
-	}
+function _getData() {
+	console.log('hello~~~~~~~~~~~~~~~~~~~~this:' + this.dataMap);
+	return this.dataMap;
+}
 
-_getGoogleFormData: function() {
+function _getGoogleFormData() {
 	clearTimeout(this.timer_g);
 	console.log('開始撈google 表單資料');
 	require('jsdom/lib/old-api').env("", function(err, window) {
