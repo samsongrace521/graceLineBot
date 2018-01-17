@@ -23,24 +23,27 @@ bot.on('message', function(event) {
   if (event.message.type = 'text') {
     var myId = event.source.userId;
     var msg = '';
-    googleTool._appendMyRow('abc');
-    console.log('開始了!!!' + event.message.text + '..' +myId);
-    try {
-      msg = _getReplyMsg(event.message.text);
-    } catch (e) {
-      msg = e.message;
+
+    console.log('開始了!!!' + event.message.text + '..' + myId);
+    if (event.message.text != undefined) {
+      try {
+        msg = _getReplyMsg(event.message.text);
+      } catch (e) {
+        msg = e.message;
+      }
+
+      // 收到文字訊息時，直接把收到的訊息傳回去
+      if (msg != null) {
+        event.reply(msg).then(function(data) {
+          // 傳送訊息成功時，可在此寫程式碼
+          console.log(msg);
+        }).catch(function(error) {
+          // 傳送訊息失敗時，可在此寫程式碼
+          console.log('錯誤產生，錯誤碼：' + error);
+        });
+      }
     }
 
-    // 收到文字訊息時，直接把收到的訊息傳回去
-    if (msg != null) {
-      event.reply(msg).then(function(data) {
-        // 傳送訊息成功時，可在此寫程式碼
-        console.log(msg);
-      }).catch(function(error) {
-        // 傳送訊息失敗時，可在此寫程式碼
-        console.log('錯誤產生，錯誤碼：' + error);
-      });
-    }
 
   }
 });
@@ -61,6 +64,10 @@ function _getReplyMsg(msg) {
     console.log('>>>>>>' + msg + '...datamap: ' + dataMap + dataMap[msg]);
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
+
+    } else if (msg.indexOf(0) == '#') {
+      var teachdata = msg.replace('#', '').split(',');
+      googleTool._appendMyRow(teachdata[0], teachdata[1]);
 
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
       replyMsg = _getHelp();
@@ -88,7 +95,7 @@ function _getReplyMsg(msg) {
   }
 
 
-  return '0x100005' + replyMsg;
+  return replyMsg;
 
 }
 
@@ -123,7 +130,7 @@ function _getJSON() {
 }
 
 function _getHelp() {
-  var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5 \n 2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
+  var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5 \n 2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度 \n 3.輸入#可以教我怎麼回答, 比如:#貓,喵喵';
   return replyMsg;
 }
 
