@@ -58,7 +58,7 @@ var server = app.listen(process.env.PORT || 8080, function() {
 function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
-    var dataMap = googleTool.getData();
+    var dataMap = googleTool._getData();
     console.log('>>>>>>' + msg + '...datamap: ' + dataMap + dataMap[msg]);
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
@@ -138,7 +138,7 @@ function _getJSON() {
     });
   });
 
-  timer = setInterval(_getJSON, 60*1000*30 ); // 每半小時抓取一次新資料
+  timer = setInterval(_getJSON, 60 * 1000 * 30 ); // 每半小時抓取一次新資料
 }
 
 function _getHelp() {
