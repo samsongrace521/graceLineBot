@@ -11,11 +11,11 @@ dataMap['2'] = '2';
 
 class googleFunction{
 	_getData() {
-		console.log('hello~~~~~~~~~~~~~~~~~~~~this:' + this.dataMap);
-		return this.dataMap;
+		console.log('hello~~~~~~~~~~~~~~~~~~~~this:' + dataMap);
+		return dataMap;
 	};
 	_getGoogleFormData() {
-		clearTimeout(this.timer_g);
+		clearTimeout(timer_g);
 		console.log('開始撈google 表單資料');
 		require('jsdom/lib/old-api').env("", function(err, window) {
 			if (err) {
@@ -47,7 +47,7 @@ class googleFunction{
 			});
 		});
 
-		this.timer_g = setInterval(this._getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
+		timer_g = setInterval(_getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
 	}
 }
 
