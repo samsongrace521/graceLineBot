@@ -85,9 +85,9 @@ function _getReplyMsg(msg) {
       }
     }
 
-    if (replyMsg == '') {
-      replyMsg = '不知道「' + msg + '」是什麼意思,你可以用#指令教我喔';
-    } // 0x100005  0x100010
+    // if (replyMsg == '') {
+    //   replyMsg = '不知道「' + msg + '」是什麼意思,你可以用#指令教我喔';
+    // } // 0x100005  0x100010
   } catch (e) {
     replyMsg = e.message + '..' + e.name;
   }
