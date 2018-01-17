@@ -9,7 +9,7 @@ dataMap['1'] = '1';
 dataMap['2'] = '2';
 
 
-class googleFunction{
+var googleFunction = {
 	_getData() {
 		console.log('hello~~~~~~~~~~~~~~~~~~~~this:' + dataMap);
 		return dataMap;
@@ -47,7 +47,7 @@ class googleFunction{
 			});
 		});
 
-		timer_g = setInterval(_getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
+		timer_g = setInterval(googleFunction._getGoogleFormData, 60 * 30); // 每半小時抓取一次新資料
 	}
 }
 
