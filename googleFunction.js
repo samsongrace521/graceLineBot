@@ -79,6 +79,7 @@ class googleFunction {
 				return;
 			}
 		});
+		new googleFunction()._getGoogleFormData();
 	};
 }
 
