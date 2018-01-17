@@ -43,8 +43,6 @@ bot.on('message', function(event) {
         });
       }
     }
-
-
   }
 });
 const app = express();
@@ -61,7 +59,7 @@ function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
     var dataMap = googleTool._getData();
-    console.log('>>>>>>' + msg + '..' + msg.indexOf('#'));
+    console.log('>>>>>>' + msg +'..'+ dataMap[msg] );
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
 
@@ -87,15 +85,15 @@ function _getReplyMsg(msg) {
       }
     }
 
-    // if (replyMsg == '') {
-    // replyMsg = '不知道「'+msg+'」是什麼意思 :p';
-    // }0x100005  0x100010
+    if (replyMsg == '') {
+      replyMsg = '不知道「' + msg + '」是什麼意思,你可以用#指令教我喔';
+    } // 0x100005  0x100010
   } catch (e) {
     replyMsg = e.message + '..' + e.name;
   }
 
-
-  return replyMsg;
+ 
+  return encodeURIComponent(0x100005) + replyMsg;
 
 }
 
