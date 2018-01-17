@@ -9,7 +9,7 @@ dataMap['1'] = '1';
 dataMap['2'] = '2';
 module.exports = googleFunction;
 
-class googleFunction() {
+class googleFunction{
 	_getData() {
 		console.log('hello~~~~~~~~~~~~~~~~~~~~this:' + this.dataMap);
 		return this.dataMap;
