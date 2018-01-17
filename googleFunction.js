@@ -59,7 +59,7 @@ class googleFunction {
 	};
 
 	//這是將取得的資料儲存進試算表的函式
-	appendMyRow(userId) {
+	_appendMyRow(userId) {
 		var request = {
 			auth: oauth2Client,
 			spreadsheetId: mySheetId,
@@ -79,7 +79,7 @@ class googleFunction {
 				return;
 			}
 		});
-	}
+	};
 }
 
 
