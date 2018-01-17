@@ -35,12 +35,12 @@ class googleFunction {
 						var key = e.gsx$key.$t;
 						var value = e.gsx$value.$t;
 						if (key != null && key != '') {
-							this.dataMap[key] = value;
+							dataMap[key] = value;
 						}
 
 					});
 				});
-				console.log('撈完google 表單資料' + this.dataMap.length);
+				console.log('撈完google 表單資料' + dataMap.length);
 			}).fail(function() {
 				console.log('撈完google 表單資料 發生錯誤');
 				debugger
