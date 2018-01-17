@@ -93,7 +93,7 @@ function _getReplyMsg(msg) {
   }
 
  
-  return encodeURIComponent(0x100005) + replyMsg;
+  return replyMsg;
 
 }
 
