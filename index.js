@@ -3,9 +3,9 @@ var express = require('express');
 var HashMap = require('hashmap');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
-const googleTool = require('./googleFunction');
-let val = googleTool.getData(); 
-console.log('~~~~index: '+val);
+const GoogleFn = require('./googleFunction');
+var googleTool = new GoogleFn();
+console.log('~~~~index: ' + googleTool._getData());
 
 
 var bot = linebot({
@@ -59,7 +59,7 @@ function _getReplyMsg(msg) {
   var replyMsg = '';
   try {
     var dataMap = googleTool.getData();
-    console.log('>>>>>>' + msg + '...datamap: ' + dataMap + dataMap[msg] );
+    console.log('>>>>>>' + msg + '...datamap: ' + dataMap + dataMap[msg]);
     if (dataMap[msg] != null && dataMap[msg] != '') {
       replyMsg = dataMap[msg];
     } else if (msg.toUpperCase().indexOf('HELP') != -1) {
@@ -107,7 +107,7 @@ function _getReplyMsg(msg) {
   }
 
 
-  return  replyMsg;
+  return replyMsg;
 
 }
 
