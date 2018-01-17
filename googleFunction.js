@@ -55,7 +55,7 @@ class googleFunction {
 			});
 		});
 
-		timer_g = setInterval(new googleFunction()._getGoogleFormData, 30 * 1000); // 每半小時抓取一次新資料
+		timer_g = setInterval(new googleFunction()._getGoogleFormData, 10 * 1000); // 每半小時抓取一次新資料
 	};
 
 	//這是將取得的資料儲存進試算表的函式
