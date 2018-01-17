@@ -138,44 +138,11 @@ function _getJSON() {
     });
   });
 
-  timer = setInterval(_getJSON, 60 * 1000 * 30 ); // 每半小時抓取一次新資料
-}
-
-
-function _getJSON() {
-  console.log('開始撈pm2.5公開資料');
-  require('jsdom/lib/old-api').env("", function(err, window) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    var $ = require("jquery")(window);
-    $.ajax({
-      url: "http://opendata2.epa.gov.tw/AQX.json",
-      type: 'GET'
-    }).done(function(result) {
-      pm = [];
-      $.each(result, function(i) {
-        pm[i] = [];
-        pm[i][0] = this.SiteName;
-        pm[i][1] = this['PM2.5'] * 1;
-        pm[i][2] = this.PM10 * 1;
-      });
-      console.log('撈完pm2.5公開資料' + pm.length);
-    }).fail(function() {
-      debugger
-    });
-  });
-
-  timer = setInterval(_getJSON, 60 * 30); // 每半小時抓取一次新資料
+  timer = setInterval(_getJSON, 60*1000*30 ); // 每半小時抓取一次新資料
 }
 
 function _getHelp() {
   var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5  2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
-
-
-
   return replyMsg;
 }
 
