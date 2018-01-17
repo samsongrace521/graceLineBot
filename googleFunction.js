@@ -68,7 +68,7 @@ class googleFunction {
 			valueInputOption: 'RAW',
 			resource: {
 				"values": [
-					'123'
+					['123','222']
 				]
 			}
 		};

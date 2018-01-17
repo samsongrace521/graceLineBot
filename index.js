@@ -123,7 +123,7 @@ function _getJSON() {
 }
 
 function _getHelp() {
-  var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5  2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
+  var replyMsg = '1. 輸入PM2.5 [地點]可查詢當地PM2.5 \n 2. 輸入經緯度 [GISX],[GISY]我們會幫你轉換成經度,緯度';
   return replyMsg;
 }
 
